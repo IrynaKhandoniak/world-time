@@ -2,155 +2,90 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Clock - Iryna Khandoniak</title>
+    <title>World Clock by Your Name</title>
 
-    <!-- Moment.js + Timezone -->
+    <!-- Fonts and Moment.js -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.37/moment-timezone-with-data-1970-2030.min.js"></script>
-
-    <style>
-      body {
-        background-color: #f9f7fe;
-        font-family: sans-serif;
-      }
-
-      h1 {
-        text-align: center;
-        font-size: 36px;
-      }
-
-      h2 {
-        margin: 0 0 5px;
-        font-size: 28px;
-      }
-
-      select {
-        display: block;
-        width: 100%;
-        font-size: 18px;
-        border-radius: 4px;
-        padding: 10px;
-        margin: 20px 0;
-      }
-
-      .container {
-        max-width: 600px;
-        margin: 60px auto;
-        background: white;
-        padding: 30px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        border-radius: 10px;
-      }
-
-      .city {
-        display: flex;
-        margin: 10px 0;
-        justify-content: space-between;
-        padding: 30px 0;
-        border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
-      }
-
-      .city:last-child {
-        border: none;
-      }
-
-      .date {
-        opacity: 0.7;
-      }
-
-      .time {
-        font-size: 48px;
-        font-weight: bold;
-      }
-
-      .time small {
-        font-size: 24px;
-        vertical-align: middle;
-        line-height: 48px;
-      }
-
-      footer {
-        text-align: center;
-        font-size: 18px;
-        color: rgba(0, 0, 0, 0.8);
-        margin-top: 50px;
-      }
-
-      a {
-        display: block;
-        margin-top: 20px;
-        text-align: center;
-        text-decoration: none;
-        color: #0077ff;
-      }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.40/moment-timezone-with-data.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <h1>World Clock</h1>
+    <div class="overlay">
+      <div class="container">
+        <h1>🌍 World Clock</h1>
+        <select id="city">
+          <option value="">Select a city...</option>
+          <option value="current">My current location</option>
+          <option value="Europe/London">London</option>
+          <option value="America/New_York">New York</option>
+          <option value="Pacific/Auckland">Auckland</option>
+          <option value="Europe/Kyiv">Kyiv</option>
+          <option value="America/Toronto">Toronto</option>
+        </select>
 
-      <select id="city">
-        <option value="">Select a city...</option>
-        <option value="current">My current location</option>
-        <option value="Europe/London">London</option>
-        <option value="America/New_York">New York</option>
-        <option value="Pacific/Auckland">Auckland</option>
-      </select>
+        <div id="cities">
+          <div class="city" id="los-angeles">
+            <div>
+              <h2>Los Angeles</h2>
+              <div class="date"></div>
+            </div>
+            <div class="time"></div>
+          </div>
 
-      <div id="cities">
-        <div class="city" id="los-angeles">
-          <div>
-            <h2>Los Angeles</h2>
-            <div class="date"></div>
+          <div class="city" id="paris">
+            <div>
+              <h2>Paris</h2>
+              <div class="date"></div>
+            </div>
+            <div class="time"></div>
           </div>
-          <div class="time"></div>
-        </div>
-        <div class="city" id="paris">
-          <div>
-            <h2>Paris</h2>
-            <div class="date"></div>
+
+          <div class="city" id="kyiv">
+            <div>
+              <h2>Kyiv</h2>
+              <div class="date"></div>
+            </div>
+            <div class="time"></div>
           </div>
-          <div class="time"></div>
+
+          <div class="city" id="toronto">
+            <div>
+              <h2>Toronto</h2>
+              <div class="date"></div>
+            </div>
+            <div class="time"></div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <footer>
-      This project was coded with ❤️ by <strong>Iryna</strong> and is
-      <a href="https://github.com/IrynaKhandoniak" target="_blank">
-        open sourced on GitHub</a
-      >
-    </footer>
+      <footer>
+        This project was coded with ❤️ by <strong>Your Name</strong> and is
+        <a href="https://github.com" target="_blank">open sourced on GitHub</a>
+      </footer>
+    </div>
 
     <script>
       function updateTime() {
-        // Los Angeles
-        let losAngelesElement = document.querySelector("#los-angeles");
-        if (losAngelesElement) {
-          let dateElement = losAngelesElement.querySelector(".date");
-          let timeElement = losAngelesElement.querySelector(".time");
-          let laTime = moment().tz("America/Los_Angeles");
+        const cities = [
+          { id: "los-angeles", zone: "America/Los_Angeles" },
+          { id: "paris", zone: "Europe/Paris" },
+          { id: "kyiv", zone: "Europe/Kyiv" },
+          { id: "toronto", zone: "America/Toronto" },
+        ];
 
-          dateElement.innerHTML = laTime.format("MMMM Do YYYY");
-          timeElement.innerHTML = laTime.format(
-            "h:mm:ss [<small>]A[</small>]"
-          );
-        }
+        cities.forEach((city) => {
+          const element = document.querySelector(`#${city.id}`);
+          if (!element) return;
 
-        // Paris
-        let parisElement = document.querySelector("#paris");
-        if (parisElement) {
-          let dateElement = parisElement.querySelector(".date");
-          let timeElement = parisElement.querySelector(".time");
-          let parisTime = moment().tz("Europe/Paris");
+          const dateElement = element.querySelector(".date");
+          const timeElement = element.querySelector(".time");
 
-          dateElement.innerHTML = parisTime.format("MMMM Do YYYY");
-          timeElement.innerHTML = parisTime.format(
-            "h:mm:ss [<small>]A[</small>]"
-          );
-        }
+          const time = moment().tz(city.zone);
+          dateElement.innerHTML = time.format("MMMM Do YYYY");
+          timeElement.innerHTML = `${time.format("h:mm:ss")} <small>${time.format("A")}</small>`;
+        });
       }
 
       function updateCity(event) {
@@ -161,10 +96,10 @@
           timeZone = moment.tz.guess();
         }
 
-        let cityName = timeZone.split("/")[1].replace("_", " ");
-        let cityTime = moment().tz(timeZone);
-        let citiesElement = document.querySelector("#cities");
+        const cityName = timeZone.split("/")[1].replace("_", " ");
+        const cityTime = moment().tz(timeZone);
 
+        const citiesElement = document.querySelector("#cities");
         citiesElement.innerHTML = `
           <div class="city">
             <div>
@@ -173,20 +108,15 @@
             </div>
             <div class="time">${cityTime.format("h:mm:ss")} <small>${cityTime.format("A")}</small></div>
           </div>
-          <a href="/" id="reset">All cities</a>
+          <a href="/" style="display:block; margin-top:20px;">🔙 All cities</a>
         `;
-
-        document.querySelector("#reset").addEventListener("click", function (e) {
-          e.preventDefault();
-          window.location.reload(); // Reload to restore default view
-        });
       }
 
       updateTime();
       setInterval(updateTime, 1000);
 
-      let citiesSelectElement = document.querySelector("#city");
-      citiesSelectElement.addEventListener("change", updateCity);
+      document.querySelector("#city").addEventListener("change", updateCity);
     </script>
   </body>
 </html>
+
